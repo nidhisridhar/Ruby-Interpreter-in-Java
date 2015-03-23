@@ -1,0 +1,7 @@
+puts "hi"
+print
+$a = 5
+6 + 5 = 10
+3 and 4
+end
+@a $b
