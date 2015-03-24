@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 /**
 *
@@ -27,7 +28,7 @@ public class Lexer extends JFrame {
         textPane = new JTextPane();
         setSize(1375,725);
         setTitle("RUBY INTERPRETER");
-        setBackground(Color.RED);
+        setBackground(Color.WHITE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         create();
