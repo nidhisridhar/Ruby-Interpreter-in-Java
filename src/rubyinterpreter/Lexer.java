@@ -5,19 +5,35 @@
  */
 
 package rubyinterpreter;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.io.*;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
 /**
  *
  * @author nidhi
  */
-public class Lexer {
+public class Lexer extends JFrame {
     Set setKeywords, setOperators, setComparators, setLogical;
+    String lexicalInformation="";
+    JTextPane textPane;
     
     Lexer()
     {
+                textPane = new JTextPane();
+                setSize(1375,725);
+		setTitle("RUBY INTERPRETER");
+		setBackground(Color.RED);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+                create();
+                
         try {
             setKeywords = new HashSet();
             setOperators = new HashSet();
@@ -59,30 +75,38 @@ public class Lexer {
                 String token = file.next();
                 token = token.toLowerCase();
                 if(setKeywords.contains(token))
-                System.out.println(token + " is a keyword \n");
+                lexicalInformation+=token + " is a keyword \n\n";
                 else if(setOperators.contains(token))
-                    System.out.println(token + " is an arithmetic operator \n");
+                    lexicalInformation+=token + " is an arithmetic operator \n\n";
                 else if(token.equals("="))
-                    System.out.println(token + " is an assignment operator \n");
+                    lexicalInformation+=token + " is an assignment operator \n\n";
                 else if(setComparators.contains(token))
-                    System.out.println(token + " is a comparison operator \n");
+                    lexicalInformation+=token + " is a comparison operator \n\n";
                 else if(setLogical.contains(token))
-                    System.out.println(token + " is a logical operator \n");
+                    lexicalInformation+=token + " is a logical operator \n\n";
                 else if(token.matches("[0-9*]"))
-                    System.out.println(token + " is a constant \n");
+                    lexicalInformation+=token + " is a constant \n\n";
                 else if(token.matches("^[a-zA-Z_@$][a-zA-Z0-9_]*$"))
-                    System.out.println(token + " is a variable \n");
+                   lexicalInformation+=token + " is a variable \n\n";
                 else                    
-                    System.out.println(token + " \n");
+                    lexicalInformation+=token + " \n\n";
  
              
 
             }
+            textPane.setText(lexicalInformation);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Lexer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        }
+    private void create() {
+		JPanel mainPanel = (JPanel) getContentPane();
+                mainPanel.setLayout(new BorderLayout());
+                mainPanel.add(textPane);
+                
+                }
     }
     
     
-}
+
