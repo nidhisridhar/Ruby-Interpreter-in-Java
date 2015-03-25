@@ -88,7 +88,7 @@ public class Lexer extends JFrame {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Lexer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        dispose();
+        
     }
         private void create() {
         JPanel mainPanel = (JPanel) getContentPane();

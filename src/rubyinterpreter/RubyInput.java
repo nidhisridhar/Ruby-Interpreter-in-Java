@@ -73,6 +73,7 @@ class RubyInput extends JFrame {
                 Logger.getLogger(RubyInput.class.getName()).log(Level.SEVERE, null, ex);
             }
             Lexer l = new Lexer();
+            dispose();
         }
     }
 }
