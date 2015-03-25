@@ -18,7 +18,7 @@ public class RubyInterpreter {
     public static void main(String[] args) {
         // TODO code application logic here
         RubyInput r = new RubyInput();
-        Lexer l = new Lexer();
+        // Lexer l = new Lexer();
     }
     
 }

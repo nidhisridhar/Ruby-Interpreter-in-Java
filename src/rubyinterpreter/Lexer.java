@@ -23,7 +23,7 @@ public class Lexer extends JFrame {
     Set setKeywords, setOperators, setComparators, setLogical;
     String lexicalInformation="";
     JTextPane textPane;
-    Lexer()
+    public Lexer()
     {   
         textPane = new JTextPane();
         setSize(1375,725);
@@ -88,6 +88,7 @@ public class Lexer extends JFrame {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Lexer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        dispose();
     }
         private void create() {
         JPanel mainPanel = (JPanel) getContentPane();

@@ -8,8 +8,12 @@ package rubyinterpreter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.io.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -24,28 +28,51 @@ import javax.swing.JTextPane;
  * @author Poorva
  */
 class RubyInput extends JFrame {
-    JTextField rubyText;
+    public JTextPane rubyText;
     JButton next; 
+    FileWriter fWriter = null;
+    BufferedWriter writer = null;
     
-    RubyInput()
+    public RubyInput()
     {
-        rubyText = new JTextField();
+        rubyText = new JTextPane();
         next = new JButton("Next");
-        setSize(1375,725);
+        setSize(900,525);
         setTitle("RUBY INTERPRETER");
         setBackground(Color.WHITE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        create1();
         
+        JPanel mainPanel1 = new JPanel();
+        mainPanel1.setLayout(new BorderLayout());
+        mainPanel1.add(rubyText);
+        add("Center",mainPanel1);
+        
+        mainPanel1 = new JPanel();
+        mainPanel1.add(next);
+        add("South",mainPanel1);
+        
+        next.addActionListener(new btn());
         
     }
     
-    private void create1()
+     class btn implements ActionListener
     {
-        JPanel mainPanel1 = (JPanel) getContentPane();
-        mainPanel1.setLayout(new BorderLayout());
-        mainPanel1.add(rubyText);
-        mainPanel1.add(next);
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            try {
+                String text = rubyText.getText();
+                fWriter = new FileWriter("ruby.txt");
+                writer = new BufferedWriter(fWriter);
+                writer.write(text);
+                writer.newLine();
+                writer.close();
+                
+            } catch (IOException ex) {
+                Logger.getLogger(RubyInput.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Lexer l = new Lexer();
+        }
     }
 }
