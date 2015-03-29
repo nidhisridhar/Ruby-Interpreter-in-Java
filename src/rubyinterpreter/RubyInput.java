@@ -36,7 +36,7 @@ class RubyInput extends JFrame {
     public RubyInput()
     {
         rubyText = new JTextPane();
-        next = new JButton("Next");
+        next = new JButton("Run");
         setSize(900,525);
         setTitle("RUBY INTERPRETER");
         setBackground(Color.WHITE);
