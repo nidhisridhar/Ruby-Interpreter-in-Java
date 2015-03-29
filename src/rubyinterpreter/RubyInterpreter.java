@@ -17,8 +17,15 @@ public class RubyInterpreter {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        RubyInput r = new RubyInput();
-        // Lexer l = new Lexer();
+        int choice = 2;
+        
+        switch(choice)
+            {    
+                case 1 : RubyInput r = new RubyInput();
+                         break;
+                    
+                case 2: Lexer l = new Lexer();
+                        break;
+            }
     }
-    
 }
