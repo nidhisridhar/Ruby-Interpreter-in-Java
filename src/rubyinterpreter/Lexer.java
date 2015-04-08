@@ -96,7 +96,11 @@ public class Lexer extends JFrame {
                  else
                      lexicalInformation+=token + " \n\n";
              }
-            // textPane.setText(lexicalInformation);
+            textPane.setText(lexicalInformation);
+            parser p=new parser();
+            System.out.println("PARSER AND EVALUATION OUTPUT");
+            p.parsear();
+            
              } catch (FileNotFoundException ex) {
                  Logger.getLogger(Lexer.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -110,7 +114,7 @@ public class Lexer extends JFrame {
     {   
         textPane = new JTextPane();
         setSize(1375,725);
-        setTitle("RUBY INTERPRETER");
+        setTitle("LEXER OUTPUT");
         setBackground(Color.WHITE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);

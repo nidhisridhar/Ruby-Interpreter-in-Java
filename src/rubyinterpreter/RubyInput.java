@@ -38,7 +38,7 @@ class RubyInput extends JFrame {
         rubyText = new JTextPane();
         next = new JButton("Run");
         setSize(900,525);
-        setTitle("RUBY INTERPRETER");
+        setTitle("RUBY INTERPRETER: ENTER RUBY CODE");
         setBackground(Color.WHITE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -72,6 +72,7 @@ class RubyInput extends JFrame {
                 Logger.getLogger(RubyInput.class.getName()).log(Level.SEVERE, null, ex);
             }
             Lexer l = new Lexer();
+            
             dispose();
         }
     }

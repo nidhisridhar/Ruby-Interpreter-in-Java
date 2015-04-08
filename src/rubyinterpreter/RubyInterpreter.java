@@ -13,7 +13,7 @@ public class RubyInterpreter {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int choice = 2;
+        int choice = 1;
         
         switch(choice)
             {    
