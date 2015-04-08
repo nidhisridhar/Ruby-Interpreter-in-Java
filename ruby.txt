@@ -1,3 +1,16 @@
-a = 35
-b = 40
-c = 90 + b
+def abc
+a = 20
+b = 20
+c = 20
+d = 20
+a = b + c + d
+g = 2
+h = 4
+d = 20
+if( g == h )
+g = d + h
+end
+else
+g = h
+end
+end

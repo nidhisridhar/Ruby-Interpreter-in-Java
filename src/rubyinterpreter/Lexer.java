@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 /**
@@ -29,6 +30,7 @@ public class Lexer extends JFrame {
     
     static String lexicalInformation="";
     static JTextPane textPane;
+     JScrollPane jsp;
     
     public static void lex()
     {
@@ -99,7 +101,7 @@ public class Lexer extends JFrame {
             textPane.setText(lexicalInformation);
             parser p=new parser();
             System.out.println("PARSER AND EVALUATION OUTPUT");
-            p.parsear();
+            p.parse();
             
              } catch (FileNotFoundException ex) {
                  Logger.getLogger(Lexer.class.getName()).log(Level.SEVERE, null, ex);
@@ -113,6 +115,7 @@ public class Lexer extends JFrame {
     public  Lexer()
     {   
         textPane = new JTextPane();
+        jsp = new JScrollPane(textPane);
         setSize(1375,725);
         setTitle("LEXER OUTPUT");
         setBackground(Color.WHITE);
@@ -125,6 +128,6 @@ public class Lexer extends JFrame {
         private void create() {
         JPanel mainPanel = (JPanel) getContentPane();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(textPane);
+        mainPanel.add(jsp);
     }
 }
