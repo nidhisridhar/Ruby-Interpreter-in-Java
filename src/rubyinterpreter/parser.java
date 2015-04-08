@@ -4,87 +4,46 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
-
-
 public class parser {
-	
-    void parsear()
-    {
-        int ifflag=0;
-        Lexer.lex();
-        System.out.println(Lexer.variable);
-        StringTokenizer t;
-        try 
-        {
-            Scanner file = new Scanner(new File("ruby.txt"));
+    StringTokenizer t;
+        Stack str=new Stack();
+        int ifelseflag=0;
+        int scopecount;
+         int endcheck;
+       Scanner file;
+       
             String s;
             int flag=0,fl=0;
-            while(file.hasNextLine())
-            {   
-                s=file.nextLine();
-                System.out.println(s);
-                int endcheck;
-                if(s.equals("end"))
-                {
-                    System.out.println("ERROR:End Defined without a function definition");
-                    break;
-                }
-                if(s.matches("^if\\( +.* +\\)"))
-                {
-                    System.out.println("If statement");
-                    ifflag=1;
-                    StringTokenizer g=new StringTokenizer(s);
-                    String h;
-                    g.nextToken();
-                    h=g.nextToken();
-                    System.out.println(h);
-                    String p="",q="";
-               	    g.nextToken();
-                    while(g.hasMoreTokens())
-                    {
-               		 p=g.nextToken();
-               		 if(p.matches("^[a-zA-Z_@$]([a-zA-Z0-9_])*"))
-               		 {
-                            int x=Lexer.variable.get(p).intValue();
-                            q= q + x + " "; 
-                            System.out.println("Yes1");
-               		 }
-                         else if(p.matches("[/+-/*///^]"))
-               		 {
-                             q= q + p + " ";
-                            System.out.println("Yes2");
-               		 }
-               		 else if (p.matches("[0-9*]"))
-               		 {
-                            q= q + p + " ";
-                            System.out.println("Yes3");
-               		 }
-               	 }
-               	 
-               	 System.out.println("The string is :- " + q);
-               	 EvaluateString ep= new EvaluateString();
-               	 System.out.println("Th solution is:- " + ep.evaluate(q));
-                 if (Lexer.variable.get(h).intValue()==ep.evaluate(q))
-                 {
-                    System.out.println("If statement is satisfied!");
+        
+
+    void checkif()
+    {
+         System.out.println("If statement is satisfied!");
+                    ifelseflag=1;
                     s=file.nextLine();
                     endcheck = 0;
-                    while(s!="end")
+                    scopecount=0;
+                    
+                    while(!"end".equals(s))
                     {
                         System.out.println(s);
                         if(s.matches("^[a-zA-Z_@$]([a-zA-Z0-9_])* += +[0-9]{1,13}(\\.[0-9]*)?$"))
                         {   
-                            System.out.println("YES ASSIGNMENT");
+                            scopecount++;        
+                        	System.out.println("YES ASSIGNMENT");
                             t=new StringTokenizer(s);
                             String v=null,d=null;
                             while(t.hasMoreTokens())
                             {
                                 String st=t.nextToken();
                                 if(st.matches("[a-zA-Z_@$]([a-zA-Z0-9_])*"))
-                                {            
-                                    v=st; 
+                                {        
+                                	
+                                    v=st;
+                                    str.push(v);
                                     System.out.println(v);
                                 }
                                 else if(st.matches("[0-9]{1,13}(\\.[0-9]*)?"))
@@ -100,9 +59,9 @@ public class parser {
                          {
                             flag=1;
                             System.out.println(Lexer.variable);
-                            System.out.println("\n Arhithmetic expression");
+                            System.out.println("\n Arithmetic expression");
                             t=new StringTokenizer(s);
-                            System.out.println("\n Arhithmetic expression");
+                            System.out.println("\n Arithmetic expression");
                             t=new StringTokenizer(s);
                             String st;
                             st = t.nextToken();
@@ -127,6 +86,8 @@ public class parser {
                                 String b="",c="",a="";
                                 StringTokenizer tt= new StringTokenizer(s);
                                 a= tt.nextToken();
+                                scopecount++;
+                                str.push(a);
                                 tt.nextToken();
                                 while(tt.hasMoreTokens())
                                 {
@@ -144,17 +105,17 @@ public class parser {
                                                 c= c + b+ " ";
                                                 System.out.println("Yes2");
                                         }
-
-                                        else if (b.matches("[0-9*]"))
+                                         else if (b.matches("[0-9]*"))
                                         {
-                                                c= c + b + " ";
-                                                System.out.println("Yes3");
+                                        System.out.println(b);
+                                        c= c + b + " ";
+                                            System.out.println("Yes3");
                                         }
                              }
 
                                 System.out.println("The string is : " + c);
                                 EvaluateString ev= new EvaluateString();
-                                System.out.println("Th solution is: " + ev.evaluate(c));
+                                System.out.println("The solution is: " + ev.evaluate(c));
                                 Lexer.variable.put(a,(double) ev.evaluate(c) ); 
                                 System.out.println(Lexer.variable);
                             }
@@ -178,16 +139,183 @@ public class parser {
            if(endcheck==0) System.out.println("ERROR if statement  doesnt have an end!");
 
 
+           int i;
+           for(i=0;i<scopecount;i++)
+           {
+          	 String f=(String)str.pop();
+          	 System.out.println(f);
+          	 Lexer.variable.put(f, 0.0);
+           }
+            scopecount=0;
 
-                         }
+    }
+    void parsear()
+    {
+        int ifflag=0;
+        Lexer.lex();
+        System.out.println(Lexer.variable);
+        
+        try 
+        {
+        	
+           file = new Scanner(new File("ruby.txt"));
+            while(file.hasNextLine())
+            {   
+                s=file.nextLine();
+                System.out.println(s);
+               
+                if(s.equals("end"))
+                {
+                    System.out.println("ERROR:End Defined without a function definition");
+                    break;
+                }
+                if(s.matches("^if\\( +.* +\\)"))
+                {
+                    System.out.println("If statement");
+                    ifflag=1;
+                    StringTokenizer g=new StringTokenizer(s);
+                    String h;
+                    String comparator;
+                    g.nextToken();
+                    h=g.nextToken();
+                    System.out.println(h);
+                    String p="",q="";
+               	    comparator = g.nextToken();
+                    System.out.println(comparator);
+                    while(g.hasMoreTokens())
+                    {
+                        
+               		 p=g.nextToken();
+               		 if(p.matches("^[a-zA-Z_@$]([a-zA-Z0-9_])*"))
+               		 {
+                            int x=Lexer.variable.get(p).intValue();
+                            q= q + x + " "; 
+                            System.out.println("Yes1");
+               		 }
+                         else if(p.matches("[/+-/*///^]"))
+               		 {
+                             q= q + p + " ";
+                            System.out.println("Yes2");
+               		 }
+               		 else if (p.matches("[0-9]*"))
+               		 {
+                            q= q + p + " ";
+                            System.out.println("Yes3");
+               		 }
+               	 }
+               	 
+               	 System.out.println("The string is :- " + q);
+               	 EvaluateString ep= new EvaluateString();
+               	 System.out.println("The solution is:- " + ep.evaluate(q));
+                 if(comparator.equals("=="))
+                 {
+                 if (Lexer.variable.get(h).intValue()==ep.evaluate(q) && Lexer.variable.get(h)!=0)
+                 {
+                   checkif();
+                 }
+                 else 
+                 {
+                	 System.out.println("If statement not satisfied.");
+                	 ifelseflag=2;
+                        s=file.nextLine();
+                        while(!s.equals("end"))
+                            s=file.nextLine();
+                       
+                 }
+                 
+                 }
+                 else if(comparator.equals(">="))
+                 {
+                 if (Lexer.variable.get(h).intValue()>=ep.evaluate(q) && Lexer.variable.get(h)!=0)
+                 {
+                   checkif();
+                 }
+                 else 
+                 {
+                	 System.out.println("If statement not satisfied.");
+                	 ifelseflag=2;
+                        s=file.nextLine();
+                        while(!s.equals("end"))
+                            s=file.nextLine();
+                       
+                 }
+                 
+                 }
+                 else if(comparator.equals("<="))
+                 {
+                 if (Lexer.variable.get(h).intValue()<=ep.evaluate(q) && Lexer.variable.get(h)!=0)
+                 {
+                   checkif();
+                 }
+                 else 
+                 {
+                	 System.out.println("If statement not satisfied.");
+                	 ifelseflag=2;
+                        s=file.nextLine();
+                        while(!s.equals("end"))
+                            s=file.nextLine();
+                       
+                 }
+                 
+                 }
+                 else if(comparator.equals("!="))
+                 {
+                 if (Lexer.variable.get(h).intValue()!=ep.evaluate(q) && Lexer.variable.get(h)!=0)
+                 {
+                   checkif();
+                 }
+                 else 
+                 {
+                	 System.out.println("If statement not satisfied.");
+                	 ifelseflag=2;
+                        s=file.nextLine();
+                        while(!s.equals("end"))
+                            s=file.nextLine();
+                       
+                 }
+                 
+                 }
+                 else if(comparator.equals(">"))
+                 {
+                 if (Lexer.variable.get(h).intValue()>ep.evaluate(q) && Lexer.variable.get(h)!=0)
+                 {
+                   checkif();
+                 }
+                 else 
+                 {
+                	 System.out.println("If statement not satisfied.");
+                	 ifelseflag=2;
+                        s=file.nextLine();
+                        while(!s.equals("end"))
+                            s=file.nextLine();
+                       
+                 }
+                 
+                 }
+                 else if(comparator.equals("<"))
+                 {
+                 if (Lexer.variable.get(h).intValue()<ep.evaluate(q) && Lexer.variable.get(h)!=0)
+                 {
+                   checkif();
+                 }
+                 else 
+                 {
+                	 System.out.println("If statement not satisfied.");
+                	 ifelseflag=2;
+                        s=file.nextLine();
+                        while(!s.equals("end"))
+                            s=file.nextLine();
+                       
+                 }
+                 
+                 }       }
 
-                        }
-
-                        if(s.matches("^else$"))
+                        if(s.matches("^else$") && ifelseflag==2)
                         {
                                 if(ifflag==0) System.out.println("Dangling else.");
                                 break;
                         }
+                         
 
                         if(s.matches("^[a-zA-Z_@$]([a-zA-Z0-9_])* += +[0-9]{1,13}(\\.[0-9]*)?$"))
                         {   System.out.println("YES ASSIGNMENT");
@@ -271,13 +399,16 @@ public class parser {
                     	System.out.println("Th solution is:- " + ev.evaluate(c));
                     	Lexer.variable.put(a,(double) ev.evaluate(c) ); 
                     	System.out.println(Lexer.variable);
+                    	
                     	}
-        
+                
                 }
+               
             
                 else if(s.matches("^def +[a-zA-Z_@$]([a-zA-Z0-9_])*(\\( ([a-zA-Z_@$]([a-zA-Z0-9_])* , )*[a-zA-Z_@$]([a-zA-Z0-9_])* \\))?$"))
                 {
                     System.out.println("\n Function definition");
+                    scopecount=0;
                     s=file.nextLine();
                     endcheck = 0;
                     while(s!="end")
@@ -286,6 +417,7 @@ public class parser {
                         if(s.matches("^[a-zA-Z_@$]([a-zA-Z0-9_])* += +[0-9]{1,13}(\\.[0-9]*)?$"))
                         {   
                             System.out.println("YES ASSIGNMENT");
+                            scopecount++;
                             t=new StringTokenizer(s);
                             String v=null,d=null;
                             while(t.hasMoreTokens())
@@ -294,6 +426,7 @@ public class parser {
                                 if(st.matches("[a-zA-Z_@$]([a-zA-Z0-9_])*"))
                                 { 
                                     v=st;
+                                    str.push(v);
                                     System.out.println(v);
                                 }
                                 else if(st.matches("[0-9]{1,13}(\\.[0-9]*)?"))
@@ -320,7 +453,7 @@ public class parser {
                                 {
                                  if(Lexer.variable.containsKey(st)==false|| Lexer.variable.get(st)==0.0)
                                  {
-                                      System.out.println("\n Undeclared variable " + st + " present. \n");
+                                      System.out.println("\n Undeclared variable or out of scope variable" + st + " present. \n");
                                       break;
                                       
                                  }
@@ -334,6 +467,8 @@ public class parser {
                                         String b="",c="",a="";
                                         StringTokenizer tt= new StringTokenizer(s);
                                         a= tt.nextToken();
+                                        scopecount++;
+                                        str.push(a);
                                         tt.nextToken();
                                         while(tt.hasMoreTokens())
                                         {
@@ -385,7 +520,14 @@ public class parser {
                 
                     }
                   if(endcheck==0) System.out.println("ERROR Function doesnt have an end!");
-                    
+                 int i;
+                 for(i=0;i<scopecount;i++)
+                 {
+                	 String g=(String)str.pop();
+                	 System.out.println(g);
+                	 Lexer.variable.put(g, 0.0);
+                 }
+                  scopecount=0;
                 }
                         
             //System.out.println(flag);

@@ -82,7 +82,7 @@ public class Lexer extends JFrame {
                      lexicalInformation+=token + " is a comparison operator \n\n";
                  else if(setLogical.contains(token))
                      lexicalInformation+=token + " is a logical operator \n\n";
-                 else if(token.matches("[0-9*]"))
+                 else if(token.matches("[0-9]*"))
                      lexicalInformation+=token + " is a constant \n\n";
                  else if(token.matches("^[a-zA-Z_@$][a-zA-Z0-9_]*$"))
                  {   

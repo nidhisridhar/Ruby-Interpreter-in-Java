@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Users/nidhi/Documents/GitHub/Ruby-Interpreter-in-Java/ruby.txt</file>
             <file>file:/C:/Users/nidhi/Documents/GitHub/Ruby-Interpreter-in-Java/src/rubyinterpreter/RubyInterpreter.java</file>
+            <file>file:/C:/Users/nidhi/Documents/GitHub/Ruby-Interpreter-in-Java/src/rubyinterpreter/EvaluateString.java</file>
             <file>file:/C:/Users/nidhi/Documents/GitHub/Ruby-Interpreter-in-Java/src/rubyinterpreter/RubyInput.java</file>
             <file>file:/C:/Users/nidhi/Documents/GitHub/Ruby-Interpreter-in-Java/src/rubyinterpreter/parser.java</file>
             <file>file:/C:/Users/nidhi/Documents/GitHub/Ruby-Interpreter-in-Java/src/rubyinterpreter/Lexer.java</file>
